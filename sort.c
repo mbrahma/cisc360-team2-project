@@ -13,19 +13,17 @@
  *  Mergesort.c
  *  Sort the inpwutted integers, using merge-sort algorithm.
  **/
-http://www.cs.cityu.edu.hk/~lwang/ccs4335/mergesort.c
+// http://www.cs.cityu.edu.hk/~lwang/ccs4335/mergesort.c
 
 #include <stdio.h>
 #include <stdlib.h>
-
 
 /**
  * merge()
  * Merge two sorted arrays, A with a  integers and
  * B with b integers, into a sorted array C.
  **/
-void
-merge (int *A, int a, int *B, int b, int *C)
+void merge (int *A, int a, int *B, int b, int *C)
 {
   int i,j,k;
   i = 0;
@@ -101,12 +99,12 @@ merge_sort(int *A, int n)
  *  main()
  *  The main function for input and output
  **/
-void
+int
 main(int argv, char** args)
 {
   int i, n;
   int *A;
-  char c;
+//  char c;
 
   printf("Please input the number of elements: " );
   scanf("%d", &n);
@@ -137,7 +135,8 @@ main(int argv, char** args)
   free(A);
 
 
-  printf("Press ENTER to return.");
-  c = _getch();
+//  printf("Press ENTER to return.\n");
+//  c = _getch();
+
 }
 

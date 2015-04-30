@@ -1,6 +1,6 @@
 MAKEFILE = Makefile
 SOURCES = sort.c
-OBJECTS = sort.o
+OBJECTS = 
 INCLUDES = 
 
 
@@ -13,3 +13,5 @@ make:	$(BINARIES)
 $(OBJECTS):     $(INCLUDES)
  
 $(OBJECTS):     $(MAKEFILE)
+
+
