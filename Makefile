@@ -1,10 +1,14 @@
 CC = gcc
 CFLAGS = -g -Wall -Werror -std=c99 -m64
 
-all: sort 
+all: radixsort mergesort quicksort 
 
-sort: sort.c 
-	$(CC) $(CFLAGS) -o sort sort.c  -lm
+radixsort: radixsort.c 
+	$(CC) $(CFLAGS) -o radixsort radixsort.c  -lm
+mergesort: mergesort.c 
+	$(CC) $(CFLAGS) -o mergesort mergesort.c  -lm
+quicksort: quicksort.c 
+	$(CC) $(CFLAGS) -o quicksort quicksort.c  -lm
 #
 # Clean the src dirctory
 #
