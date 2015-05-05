@@ -1,0 +1,221 @@
+http://en.wikipedia.org/wiki/Merge_sort
+
+MergeSort:
+
+Algorithm Concept:
+
+1. Divide the unsorted list into n sublists, each containing 1 element (a list of 1 element is considered sorted).
+2. Repeatedly merge sublists to produce new sorted sublists until there is only 1 sublist remaining. This will be the sorted list.
+
+Variations of Implementations:
+
+Top-Down
+
+TopDownMergeSort(A[], B[], n)
+{
+    TopDownSplitMerge(A, 0, n, B);
+}
+ 
+// iBegin is inclusive; iEnd is exclusive (A[iEnd] is not in the set)
+TopDownSplitMerge(A[], iBegin, iEnd, B[])
+{
+    if(iEnd - iBegin < 2)                       // if run size == 1
+        return;                                 //   consider it sorted
+    // recursively split runs into two halves until run size == 1,
+    // then merge them and return back up the call chain
+    iMiddle = (iEnd + iBegin) / 2;              // iMiddle = mid point
+    TopDownSplitMerge(A, iBegin,  iMiddle, B);  // split / merge left  half
+    TopDownSplitMerge(A, iMiddle,    iEnd, B);  // split / merge right half
+    TopDownMerge(A, iBegin, iMiddle, iEnd, B);  // merge the two half runs
+    CopyArray(B, iBegin, iEnd, A);              // copy the merged runs back to A
+}
+ 
+//  left half is A[iBegin :iMiddle-1]
+// right half is A[iMiddle:iEnd-1   ]
+TopDownMerge(A[], iBegin, iMiddle, iEnd, B[])
+{
+    i0 = iBegin, i1 = iMiddle;
+ 
+    // While there are elements in the left or right runs
+    for (j = iBegin; j < iEnd; j++) {
+        // If left run head exists and is <= existing right run head.
+        if (i0 < iMiddle && (i1 >= iEnd || A[i0] <= A[i1]))
+            B[j] = A[i0];
+            i0 = i0 + 1;
+        else
+            B[j] = A[i1];
+            i1 = i1 + 1;    
+    } 
+}
+ 
+CopyArray(B[], iBegin, iEnd, A[])
+{
+    for(k = iBegin; k < iEnd; k++)
+        A[k] = B[k];
+}
+
+Bottom-up
+
+void BottomUpMerge(A[], iLeft, iRight, iEnd, B[])
+{
+  i0 = iLeft;
+  i1 = iRight;
+  j;
+ 
+  /* While there are elements in the left or right runs */
+  for (j = iLeft; j < iEnd; j++)
+    {
+      /* If left run head exists and is <= existing right run head */
+      if (i0 < iRight && (i1 >= iEnd || A[i0] <= A[i1]))
+        {
+          B[j] = A[i0];
+          i0 = i0 + 1;
+        }
+      else
+        {
+          B[j] = A[i1];
+          i1 = i1 + 1;
+        }
+    }
+}
+ 
+void CopyArray(B[], A[], n)
+{
+    for(i = 0; i < n; i++)
+        A[i] = B[i];
+}
+ 
+/* array A[] has the items to sort; array B[] is a work array */
+void BottomUpSort(A[], B[], n)
+{
+  /* Each 1-element run in A is already "sorted". */
+  /* Make successively longer sorted runs of length 2, 4, 8, 16... until whole array is sorted. */
+  for (width = 1; width < n; width = 2 * width)
+    {
+      /* Array A is full of runs of length width. */
+      for (i = 0; i < n; i = i + 2 * width)
+        {
+          /* Merge two runs: A[i:i+width-1] and A[i+width:i+2*width-1] to B[] */
+          /* or copy A[i:n-1] to B[] ( if(i+width >= n) ) */
+          BottomUpMerge(A, i, min(i+width, n), min(i+2*width, n), B);
+        }
+      /* Now work array B is full of runs of length 2*width. */
+      /* Copy array B to array A for next iteration. */
+      /* A more efficient implementation would swap the roles of A and B */
+      CopyArray(B, A, n);
+      /* Now array A is full of runs of length 2*width. */
+    }
+}
+
+Top-Down with lists:
+
+function merge_sort(list m)
+    // Base case. A list of zero or one elements is sorted, by definition.
+    if length(m) <= 1
+        return m
+
+    // Recursive case. First, *divide* the list into equal-sized sublists.
+    var list left, right
+    var integer middle = length(m) / 2
+    for each x in m before middle
+         add x to left
+    for each x in m after or equal middle
+         add x to right
+
+    // Recursively sort both sublists
+    left = merge_sort(left)
+    right = merge_sort(right)
+    
+    // Then merge the now-sorted sublists.
+    return merge(left, right)
+
+function merge(left, right)
+    var list result
+    while notempty(left) and notempty(right)
+        if first(left) <= first(right)
+            append first(left) to result
+            left = rest(left)
+        else
+            append first(right) to result
+            right = rest(right)
+    // either left or right may have elements left
+    while notempty(left)
+        append first(left) to result
+        left = rest(left)
+    while notempty(right)
+        append first(right) to result
+        right = rest(right)
+    return result
+
+Parallel merge sort
+
+Algorithm
+
+/* inclusive/exclusive indices */
+procedure mergesort(A, lo, hi):
+    if lo+1 < hi:  /* if two or more elements */
+        mid = ⌊(lo + hi) / 2⌋
+        fork mergesort(A, lo, mid)
+        mergesort(A, mid, hi)
+        join
+        merge(A, lo, mid, hi)
+
+-  still Θ(nlogn) , but slightly faster than the original version
+-- 
+http://penguin.ewu.edu/cscd300/Topic/AdvSorting/MergeSorts/InPlace.html
+
+In-place merge
+
+Java implementation
+
+private static void inPlaceSort ( Comparable[] x, int first, int last )
+      left = first;  right = mid+1;
+      // One extra check:  can we SKIP the merge?
+      if ( x[mid].compareTo(x[right]) <= 0 )
+         return;
+
+      while (left <= mid && right <= last)
+      {  // Select from left:  no change, just advance left
+         if ( x[left].compareTo(x[right]) <= 0 )
+            left++;
+         // Select from right:  rotate [left..right] and correct
+         else
+         {  tmp = x[right];     // Will move to [left]
+            System.arraycopy(x, left, x, left+1, right-left);
+            x[left] = tmp;
+            // EVERYTHING has moved up by one
+            left++;  mid++;  right++;
+         }
+      }
+      // Whatever remains in [right..last] is in place
+
+Optimizations:
+Cache and locality:
+
+http://c2.com/cgi/wiki?TimSort
+Timsort - combination of merge and insertion sort
+Time the runs and run timesort when optimal
+
+    Last run < Second to last run
+    Last run + Second to last run < Third to last run
+
+algorithm:
+
+   While (true):
+      let A = pop(stack);
+      let B = pop(stack);
+      let C = pop(stack);
+      If A + B > C:
+         push(stack, merge(B, C));
+         push(A);
+      Else If A > B:
+         push(stack, C);
+         push(stack, merge(A, B);
+      Else:
+       break;
+
+multi-merge - http://faculty.simpson.edu/lydia.sinapova/www/cmsc250/LN250_Weiss/L17-ExternalSort.htm#multi
+tiled merge-sort
+
+stops partitioning subarrays when subarrays of size S are reached, where S is the number of data items fitting into a CPU's cache. Each of these subarrays is sorted with an in-place sorting algorithm such as insertion sort, to discourage memory swaps, and normal merge sort is then completed in the standard recursive fashion. This algorithm has demonstrated better performance on machines that benefit from cache optimization
+
