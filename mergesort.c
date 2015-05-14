@@ -119,10 +119,11 @@ int main(int argv, char** args)
   int i = 0;
   int m = 0;
   char * file;
+  FILE * data;
   int *A;
 //  char c;
 
-  printf("1. 100\n2. 1000\n3. 10000\n4. 100000 ", n);
+  printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
@@ -138,26 +139,29 @@ int main(int argv, char** args)
   	  case 4: file = "Data\rd100000.txt";
   	  	  	  m = 100000;
   	  break;
-  	  default: "Please enter 1, 2, 3, or 4.";
+  	  default: printf("Please enter 1, 2, 3, or 4.");
   	  break;
   }
   if (file == NULL) {
 	  return 0;
   }
-  FILE *data = fopen(file, "r");
+
+  A = (int *)malloc(sizeof(int) * m);
+  data = fopen(file, "w+");
 	   if ( data != NULL )
 	   {
-		    while(fscanf(file, "%d", &x) == 1 ) {
+		    while(fscanf(data, "%d", &x) == 1 ) {
 		    	A[i] = x;
 		    	i++;
 		    }
 	   }
 
-/*  A = (int *)malloc(sizeof(int) * n);
-  printf("Please input %d integers: ", n);
-  for (i = 0; i < n; i++) {
-    scanf("%d", &(A[i]));
-  }*/
+	   fclose(data);
+
+//  printf("Please input %d integers: ", n);
+//  for (i = 0; i < n; i++) {
+//    scanf("%d", &(A[i]));
+//  }
 
 /*   print the original array
   printf("%s************** Result **************\n",KYEL);
