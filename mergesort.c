@@ -115,9 +115,9 @@ merge_sort(int *A, int n)
  **/
 int main(int argv, char** args)
 {
-  int m, n, x;
+  int n, x;
   int i = 0;
-  FILE data;
+  int m = 0;
   char * file;
   int *A;
 //  char c;
@@ -126,16 +126,16 @@ int main(int argv, char** args)
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-  	  case 1: file = 'rd100.txt';
+  	  case 1: file = "Data\rd100.txt";
   	  	  	  m = 100;
   	  break;
-  	  case 2: file = 'rd1000.txt';
+  	  case 2: file = "Data\rd1000.txt";
   	  	  	  m = 1000;
   	  break;
-  	  case 3: file = 'rd10000.txt';
+  	  case 3: file = "Data\rd10000.txt";
   	  	  	  m = 10000;
   	  break;
-  	  case 4: file = 'rd100000.txt';
+  	  case 4: file = "Data\rd100000.txt";
   	  	  	  m = 100000;
   	  break;
   	  default: "Please enter 1, 2, 3, or 4.";
@@ -168,11 +168,11 @@ int main(int argv, char** args)
   printf("\n");*/
 
   /* merge sort A */
-  merge_sort(A, n);
+  merge_sort(A, m);
 
   /* print the sorted array */
   printf("%sThe sorted array is: ", KGRN);
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < m; i++) {
     printf("%d ", A[i]);
   }
   printf("\n");
