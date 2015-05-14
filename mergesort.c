@@ -19,6 +19,15 @@
 // RadixSort:
 // http://austingwalters.com/radix-sort-in-c/
 
+ #define KNRM  "\x1B[0m"
+ #define KRED  "\x1B[31m"
+ #define KGRN  "\x1B[32m"
+ #define KYEL  "\x1B[33m"
+ #define KBLU  "\x1B[34m"
+ #define KMAG  "\x1B[35m"
+ #define KCYN  "\x1B[36m"
+ #define KWHT  "\x1B[37m"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -106,32 +115,63 @@ merge_sort(int *A, int n)
  **/
 int main(int argv, char** args)
 {
-  int i, n;
+  int m, n, x;
+  int i = 0;
+  FILE data;
+  char * file;
   int *A;
 //  char c;
 
-  printf("Please input the number of elements: " );
+  printf("1. 100\n2. 1000\n3. 10000\n4. 100000 ", n);
+  printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
+  switch(n) {
+  	  case 1: file = 'rd100.txt';
+  	  	  	  m = 100;
+  	  break;
+  	  case 2: file = 'rd1000.txt';
+  	  	  	  m = 1000;
+  	  break;
+  	  case 3: file = 'rd10000.txt';
+  	  	  	  m = 10000;
+  	  break;
+  	  case 4: file = 'rd100000.txt';
+  	  	  	  m = 100000;
+  	  break;
+  	  default: "Please enter 1, 2, 3, or 4.";
+  	  break;
+  }
+  if (file == NULL) {
+	  return 0;
+  }
+  FILE *data = fopen(file, "r");
+	   if ( data != NULL )
+	   {
+		    while(fscanf(file, "%d", &x) == 1 ) {
+		    	A[i] = x;
+		    	i++;
+		    }
+	   }
 
-  A = (int *)malloc(sizeof(int) * n);
+/*  A = (int *)malloc(sizeof(int) * n);
   printf("Please input %d integers: ", n);
   for (i = 0; i < n; i++) {
     scanf("%d", &(A[i]));
-  }
+  }*/
 
-  /* print the original array */
-  printf("************** Result **************\n");
-  printf("The input array is: ");
+/*   print the original array
+  printf("%s************** Result **************\n",KYEL);
+  printf("%sThe input array is: ", KCYN);
   for (i = 0; i < n; i++) {
     printf("%d ", A[i]);
   }
-  printf("\n");
+  printf("\n");*/
 
   /* merge sort A */
   merge_sort(A, n);
 
   /* print the sorted array */
-  printf("The sorted array is: ");
+  printf("%sThe sorted array is: ", KGRN);
   for (i = 0; i < n; i++) {
     printf("%d ", A[i]);
   }
@@ -140,5 +180,15 @@ int main(int argv, char** args)
 
 //  printf("Press ENTER to return.\n");
 //  c = _getch();
+
+  printf("%sred\n", KRED);
+  printf("%sgreen\n", KGRN);
+  printf("%syellow\n", KYEL);
+  printf("%sblue\n", KBLU);
+  printf("%smagenta\n", KMAG);
+  printf("%scyan\n", KCYN);
+  printf("%swhite\n", KWHT);
+  printf("%snormal\n", KNRM);
+
 }
 
