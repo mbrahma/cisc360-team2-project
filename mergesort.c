@@ -115,7 +115,7 @@ merge_sort(int *A, int n)
  **/
 int main(int argv, char** args)
 {
-  int n, x;
+  int n, a;
   int i = 0;
   int m = 0;
   char * file;
@@ -127,49 +127,40 @@ int main(int argv, char** args)
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-  	  case 1: file = "Data\rd100.txt";
+  	  case 1: file = "Data/rd100.txt";
   	  	  	  m = 100;
-  	  break;
-  	  case 2: file = "Data\rd1000.txt";
+  	  	  	  break;
+  	  case 2: file = "Data/rd1000.txt";
   	  	  	  m = 1000;
-  	  break;
-  	  case 3: file = "Data\rd10000.txt";
+  	  	  	  break;
+  	  case 3: file = "Data/rd10000.txt";
   	  	  	  m = 10000;
-  	  break;
-  	  case 4: file = "Data\rd100000.txt";
+  	  	  	  break;
+  	  case 4: file = "Data/rd100000.txt";
   	  	  	  m = 100000;
-  	  break;
+  	  	  	  break;
   	  default: printf("Please enter 1, 2, 3, or 4.");
-  	  break;
-  }
-  if (file == NULL) {
-	  return 0;
+  	  	  	  return 0;
   }
 
   A = (int *)malloc(sizeof(int) * m);
-  data = fopen(file, "w+");
-	   if ( data != NULL )
-	   {
-		    while(fscanf(data, "%d", &x) == 1 ) {
-		    	A[i] = x;
-		    	i++;
-		    }
-	   }
 
-	   fclose(data);
+  data = fopen(file, "r");
+  for (i = 0; fscanf (data, "%d", A + i) != EOF; i++);
+
+  fclose(data);
 
 //  printf("Please input %d integers: ", n);
 //  for (i = 0; i < n; i++) {
 //    scanf("%d", &(A[i]));
 //  }
 
-/*   print the original array
   printf("%s************** Result **************\n",KYEL);
   printf("%sThe input array is: ", KCYN);
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < m; i++) {
     printf("%d ", A[i]);
   }
-  printf("\n");*/
+  printf("\n");
 
   /* merge sort A */
   merge_sort(A, m);
