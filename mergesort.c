@@ -173,18 +173,14 @@ int main(int argv, char** args)
 
   gettimeofday(&end, NULL);
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
-  printf("\n"); 
+
+  /* print the sorted array */
+  printf("%sThe sorted array is: ", KGRN);
+ 
+  printf("\n");
   printf("\nElapsed time for sort is: ");
   printf("%ld", elapsedTime); 
   printf("%s\n", " ns");
-  printf("\n");
-  printf("\n");
-  /* print the sorted array */
-  printf("%sThe sorted array is: ", KGRN);
-  for (i = 0; i < m; i++) {
-    printf("%d ", A[i]);
-  }
-  printf("\n");
   free(A);
 
 //  printf("Press ENTER to return.\n");
