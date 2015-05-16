@@ -30,6 +30,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
 
 /**
  * merge()
@@ -161,6 +163,14 @@ int main(int argv, char** args)
     printf("%d ", A[i]);
   }
   printf("\n");
+  struct timeval t1, t2;
+  gettimeofday(&t1, NULL);
+  gettimeofday(&t2, NULL);
+  int elapsedTime;
+  elapsedTime = (t2.tv_sec - t1.tv_sec);
+  printf(elapsedTime);
+
+
 
   /* merge sort A */
   merge_sort(A, m);
