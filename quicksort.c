@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <sys/time.h>
 
 
 int partition( int a[], int l, int r) {
@@ -68,30 +68,62 @@ void printArray(int * array, int size){
  **/
 int main(int argv, char** args)
 {
-	int i, n;
-	int *A;
+  int n;//, a;
+  int i = 0;
+  int m = 0;
+  char * file;
+  FILE * data;
+  int *A;
+  struct timeval start, end;
+  long elapsedTime;
+//  char c;
 
-	  printf("Please input the number of elements: " );
-	  scanf("%d", &n);
+  printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
+  printf("Please the letter of the number of elements you wish to sort: " );
+  scanf("%d", &n);
+  switch(n) {
+  	  case 1: file = "Data/rd100.txt";
+  	  	  	  m = 100;
+  	  	  	  break;
+  	  case 2: file = "Data/rd1000.txt";
+  	  	  	  m = 1000;
+  	  	  	  break;
+  	  case 3: file = "Data/rd10000.txt";
+  	  	  	  m = 10000;
+  	  	  	  break;
+  	  case 4: file = "Data/rd100000.txt";
+  	  	  	  m = 100000;
+  	  	  	  break;
+  	  default: printf("Please enter 1, 2, 3, or 4.");
+  	  	  	  return 0;
+  }
 
-	  A = (int *)malloc(sizeof(int) * n);
-	  printf("Please input %d integers: ", n);
-	  for (i = 0; i < n; i++) {
-	    scanf("%d", &(A[i]));
-	  }
+  A = (int *)malloc(sizeof(int) * m);
 
-/*	int a[] = { 7, 12, 1, -2, 0, 15, 4, 11, 9};*/
+  data = fopen(file, "r");
+  for (i = 0; fscanf (data, "%d", A + i) != EOF; i++);
+
+  fclose(data);
+
+  gettimeofday(&start, NULL);
 
 	printf("\n\nUnsorted array is:  ");
-	for(i = 0; i < n; ++i)
+	for(i = 0; i < m; ++i)
 		printf(" %d ", A[i]);
 
-	quickSort( A, 0, n);
+	quickSort( A, 0, m);
 
 	printf("\n\nThe sorted array is:  ");
-	for(i = 0; i < n; ++i)
+	for(i = 1; i < m+1; ++i)
 		printf(" %d ", A[i]);
 	printf(" \n");
+  gettimeofday(&end, NULL);
+  elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
+  printf("\n");
+  printf("\nElapsed time for sort is: ");
+  printf("%ld", elapsedTime); 
+  printf("%s\n", " ns");
+  free(A);
 
 }
 
