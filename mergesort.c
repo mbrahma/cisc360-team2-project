@@ -123,6 +123,8 @@ int main(int argv, char** args)
   char * file;
   FILE * data;
   int *A;
+  struct timeval start, end;
+  long elapsedTime;
 //  char c;
 
   printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
@@ -163,28 +165,22 @@ int main(int argv, char** args)
     printf("%d ", A[i]);
   }
   printf("\n");
-  struct timeval t1, t2;
-  gettimeofday(&t1, 0);
-
-
+  
+  gettimeofday(&start, NULL);
 
   /* merge sort A */
   merge_sort(A, m);
 
-  gettimeofday(&t2, 0);
-  long elapsedTime = (t2.tv_sec - t1.tv_sec)*1000000 + t2.tv_usec - t1.tv_usec;
-  //printf(elapsedTime);
-  //printf("%i", elapsedTime);
-  printf("\n"); 
-  printf("\nElapsed time for sort is: "); printf("%ld", elapsedTime); 
-  printf("\n");
-  printf("\n");
+  gettimeofday(&end, NULL);
+  elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
+
   /* print the sorted array */
   printf("%sThe sorted array is: ", KGRN);
-  for (i = 0; i < m; i++) {
-    printf("%d ", A[i]);
-  }
+ 
   printf("\n");
+  printf("\nElapsed time for sort is: ");
+  printf("%ld", elapsedTime); 
+  printf("%s\n", " ns");
   free(A);
 
 //  printf("Press ENTER to return.\n");
@@ -200,4 +196,3 @@ int main(int argv, char** args)
   printf("%snormal\n", KNRM);
 */
 }
-
