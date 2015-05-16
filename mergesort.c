@@ -30,6 +30,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
 
 /**
  * merge()
@@ -115,7 +117,7 @@ merge_sort(int *A, int n)
  **/
 int main(int argv, char** args)
 {
-  int n, a;
+  int n;//, a;
   int i = 0;
   int m = 0;
   char * file;
@@ -161,10 +163,22 @@ int main(int argv, char** args)
     printf("%d ", A[i]);
   }
   printf("\n");
+  struct timeval t1, t2;
+  gettimeofday(&t1, 0);
+
+
 
   /* merge sort A */
   merge_sort(A, m);
 
+  gettimeofday(&t2, 0);
+  long elapsedTime = (t2.tv_sec - t1.tv_sec)*1000000 + t2.tv_usec - t1.tv_usec;
+  //printf(elapsedTime);
+  //printf("%i", elapsedTime);
+  printf("\n"); 
+  printf("\nElapsed time for sort is: "); printf("%ld", elapsedTime); 
+  printf("\n");
+  printf("\n");
   /* print the sorted array */
   printf("%sThe sorted array is: ", KGRN);
   for (i = 0; i < m; i++) {
@@ -175,7 +189,7 @@ int main(int argv, char** args)
 
 //  printf("Press ENTER to return.\n");
 //  c = _getch();
-
+/*
   printf("%sred\n", KRED);
   printf("%sgreen\n", KGRN);
   printf("%syellow\n", KYEL);
@@ -184,6 +198,6 @@ int main(int argv, char** args)
   printf("%scyan\n", KCYN);
   printf("%swhite\n", KWHT);
   printf("%snormal\n", KNRM);
-
+*/
 }
 
