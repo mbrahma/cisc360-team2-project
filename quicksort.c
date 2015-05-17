@@ -24,37 +24,36 @@
 #include <sys/time.h>
 
 
-int partition( int a[], int l, int r) {
-   int pivot, i, j, t;
-   pivot = a[l];
-   i = l; j = r+1;
-
-   while( 1)
-   {
-   	do ++i; while( a[i] <= pivot && i <= r );
-   	do --j; while( a[j] > pivot );
-   	if( i >= j ) break;
-   	t = a[i]; a[i] = a[j]; a[j] = t;
-   }
-   t = a[l]; a[l] = a[j]; a[j] = t;
-   return j;
+//helper function for finding median
+void swap(int *a, int *b) {
+   int temp;
+   temp = *b;
+   *b = *a;
+   *a = temp;
 }
-
+//median of three
+int MedianOfThreePartition(int a[],int p, int r) {
+  int x=a[p],y=a[(r-p)/2+p],z=a[r-1],i=p-1,j=r;
+  if (y>x && y<z || y>z && y<x ) x=y;
+  else if (z>x && z<y || z>y && z<x ) x=z;
+  while (1) {
+    do  {j--;} while (a[j] > x);
+    do  {i++;} while (a[i] < x);
+    if  (i < j) swap(&a[i],&a[j]);
+    else return j+1;
+  }
+}
 void quickSort( int a[], int l, int r)
 {
-   int j;
-
-   if( l < r )
-   {
+   int pivotPoint;
+  if (r-l<2) return;   
    	// divide and conquer
-        j = partition( a, l, r);
-       quickSort( a, l, j-1);
-       quickSort( a, j+1, r);
-   }
+       pivotPoint = MedianOfThreePartition( a, l, r);
+       quickSort( a, l, pivotPoint);
+       quickSort( a, pivotPoint, r);
 
 }
 void printArray(int * array, int size){
-
   int i;
   printf("[ ");
   for (i = 0; i < size; i++)
@@ -105,20 +104,23 @@ int main(int argv, char** args)
 
   fclose(data);
 
-  gettimeofday(&start, NULL);
-
 	printf("\n\nUnsorted array is:  ");
 	for(i = 0; i < m; ++i)
 		printf(" %d ", A[i]);
 
+  //start timer
+  gettimeofday(&start, NULL);
 	quickSort( A, 0, m);
+  //end timer
+  gettimeofday(&end, NULL);
+  //calculate elapsed time
+  elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
 
 	printf("\n\nThe sorted array is:  ");
 	for(i = 1; i < m+1; ++i)
 		printf(" %d ", A[i]);
 	printf(" \n");
-  gettimeofday(&end, NULL);
-  elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
+  
   printf("\n");
   printf("\nElapsed time for sort is: ");
   printf("%ld", elapsedTime); 
