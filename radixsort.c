@@ -68,8 +68,8 @@ void radixSort(int * array, int size){
   // Loop until we reach the largest significant digit
   while (largestNum / significantDigit > 0){
 
-    printf("\tSorting: %d's place ", significantDigit);
-    printArray(array, size);
+    //printf("\tSorting: %d's place ", significantDigit);
+    //printArray(array, size);
 
     int bucket[10] = { 0 };
 
@@ -96,8 +96,8 @@ void radixSort(int * array, int size){
     // Move to next significant digit
     significantDigit *= 10;
 
-    printf("\n\tBucket: ");
-    printArray(bucket, 10);
+    //printf("\n\tBucket: ");
+    //printArray(bucket, 10);
   }
 }
 
@@ -153,7 +153,7 @@ int main(int argv, char** args)
 
     gettimeofday(&start, NULL);
 
-    radix_sort(A, m);
+    radixSort(A, m);
 
     gettimeofday(&end, NULL);
     elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
