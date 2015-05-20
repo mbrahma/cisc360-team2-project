@@ -128,8 +128,8 @@ int main(int argv, char** args)
   long elapsedTime;
 //  char c;
 //  char * datatype;
-  printf("1. random\n 2. Nearly Sorted \n 3. Few Unique\n 4. Reversed\n");
-  printf("Please enter the number of the data you want to sort: \n");
+  printf("1. random\n2. Nearly Sorted \n3. Few Unique\n4. Reversed\n");
+  printf("Please enter the number of the data you want to sort: ");
 scanf("%d", &a);
 switch(a) {
 case (1): strcpy(fd, "Data/rd");
@@ -143,7 +143,7 @@ break;
 default: strcpy(fd, "Data/rd");
 break;
 } 
- printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
+ printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n5. 1000000\n ");
   printf("Please enter the number  of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
@@ -159,7 +159,10 @@ break;
   	  case 4: file = strcat(fd,"100000.txt");
   	  	  	  m = 100000;
   	  	  	  break;
-  	  default: printf("Please enter 1, 2, 3, or 4.");
+	  case 5: file = strcat(fd, "1000000.txt");
+			  m = 1000000;
+			  break;
+  	  default: printf("Please enter 1, 2, 3, 4, or 5.");
   	  	  	  return 0;
   }
 printf("\n%s", fd);
