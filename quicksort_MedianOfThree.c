@@ -76,13 +76,11 @@ int main(int argv, char** args)
   long elapsedTime;
 //  char c;
 
-  printf("0. 10\n1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
+  printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-	case 0: file = "Data/random10.txt";
-  	  	  	  m = 10;
-  	  	  	  break;
+
   	  case 1: file = "Data/fewunique100.txt";
   	  	  	  m = 100;
   	  	  	  break;
@@ -95,10 +93,8 @@ int main(int argv, char** args)
   	  case 4: file = "Data/fewunique100000.txt";
   	  	  	  m = 100000;
   	  	  	  break;
-	  case 5: file = "Data/fewunique1000000.txt";
-  	  	  	  m = 1000000;
-  	  	  	  break;
-  	  default: printf("Please enter 1, 2, 3, 4 or 5.");
+	 
+  	  default: printf("Please enter 1, 2, 3, 4.");
   	  	  	  return 0;
   }
 
