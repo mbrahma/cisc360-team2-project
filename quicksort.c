@@ -19,6 +19,10 @@
 // RadixSort:
 // http://austingwalters.com/radix-sort-in-c/
 
+
+/**
+ *  quicksort with no optimazation
+ **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -43,24 +47,16 @@ int partition( int a[], int l, int r) {
 void quickSort( int a[], int l, int r)
 {
    int j;
-
    if( l < r )
    {
    	// divide and conquer
-        j = partition( a, l, r);
+       j = partition( a, l, r);
        quickSort( a, l, j-1);
        quickSort( a, j+1, r);
    }
 
 }
-void printArray(int * array, int size){
 
-  int i;
-  printf("[ ");
-  for (i = 0; i < size; i++)
-    printf("%d ", array[i]);
-  printf("]\n");
-}
 
 /**
  *  main()
@@ -68,7 +64,7 @@ void printArray(int * array, int size){
  **/
 int main(int argv, char** args)
 {
-  int n;//, a;
+  int n;
   int i = 0;
   int m = 0;
   char * file;
@@ -76,14 +72,13 @@ int main(int argv, char** args)
   int *A;
   struct timeval start, end;
   long elapsedTime;
-//  char c;
 
   printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-  	  case 1: file = "Data/rd100.txt";
-  	  	  	  m = 100;
+  	  case 1: file = "Data/reversed1000000.txt";
+  	  	  	  m = 1000000;
   	  	  	  break;
   	  case 2: file = "Data/rd1000.txt";
   	  	  	  m = 1000;
@@ -105,20 +100,13 @@ int main(int argv, char** args)
 
   fclose(data);
 
-  gettimeofday(&start, NULL);
-
-	printf("\n\nUnsorted array is:  ");
-	for(i = 0; i < m; ++i)
-		printf(" %d ", A[i]);
-
+  //time execution time
+	gettimeofday(&start, NULL);
 	quickSort( A, 0, m);
-
-	printf("\n\nThe sorted array is:  ");
-	for(i = 1; i < m+1; ++i)
-		printf(" %d ", A[i]);
-	printf(" \n");
-  gettimeofday(&end, NULL);
+	gettimeofday(&end, NULL);
+  //calculte elapsedTime
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
+  //print out elapsed time
   printf("\n");
   printf("\nElapsed time for sort is: ");
   printf("%ld", elapsedTime); 
@@ -126,4 +114,3 @@ int main(int argv, char** args)
   free(A);
 
 }
-
