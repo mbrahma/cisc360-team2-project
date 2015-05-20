@@ -19,47 +19,44 @@
 // RadixSort:
 // http://austingwalters.com/radix-sort-in-c/
 
+
+/**
+ *  quicksort with no optimazation
+ **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
 
-//helper function for finding median
-void swap(int *a, int *b) {
-   int temp;
-   temp = *b;
-   *b = *a;
-   *a = temp;
+int partition( int a[], int l, int r) {
+   int pivot, i, j, t;
+   pivot = a[l];
+   i = l; j = r+1;
+
+   while( 1)
+   {
+   	do ++i; while( a[i] <= pivot && i <= r );
+   	do --j; while( a[j] > pivot );
+   	if( i >= j ) break;
+   	t = a[i]; a[i] = a[j]; a[j] = t;
+   }
+   t = a[l]; a[l] = a[j]; a[j] = t;
+   return j;
 }
-//median of three
-int MedianOfThreePartition(int a[],int p, int r) {
-  int x=a[p],y=a[(r-p)/2+p],z=a[r-1],i=p-1,j=r;
-  if (y>x && y<z || y>z && y<x ) x=y;
-  else if (z>x && z<y || z>y && z<x ) x=z;
-  while (1) {
-    do  {j--;} while (a[j] > x);
-    do  {i++;} while (a[i] < x);
-    if  (i < j) swap(&a[i],&a[j]);
-    else return j+1;
-  }
-}
+
 void quickSort( int a[], int l, int r)
 {
-   int pivotPoint;
-  if (r-l<2) return;   
+   int j;
+   if( l < r )
+   {
    	// divide and conquer
-       pivotPoint = MedianOfThreePartition( a, l, r);
-       quickSort( a, l, pivotPoint);
-       quickSort( a, pivotPoint, r);
+       j = partition( a, l, r);
+       quickSort( a, l, j-1);
+       quickSort( a, j+1, r);
+   }
 
 }
-void printArray(int * array, int size){
-  int i;
-  printf("[ ");
-  for (i = 0; i < size; i++)
-    printf("%d ", array[i]);
-  printf("]\n");
-}
+
 
 /**
  *  main()
@@ -67,7 +64,7 @@ void printArray(int * array, int size){
  **/
 int main(int argv, char** args)
 {
-  int n;//, a;
+  int n;
   int i = 0;
   int m = 0;
   char * file;
@@ -75,14 +72,13 @@ int main(int argv, char** args)
   int *A;
   struct timeval start, end;
   long elapsedTime;
-//  char c;
 
   printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-  	  case 1: file = "Data/rd100.txt";
-  	  	  	  m = 100;
+  	  case 1: file = "Data/reversed1000000.txt";
+  	  	  	  m = 1000000;
   	  	  	  break;
   	  case 2: file = "Data/rd1000.txt";
   	  	  	  m = 1000;
@@ -104,23 +100,13 @@ int main(int argv, char** args)
 
   fclose(data);
 
-	printf("\n\nUnsorted array is:  ");
-	for(i = 0; i < m; ++i)
-		printf(" %d ", A[i]);
-
-  //start timer
-  gettimeofday(&start, NULL);
+  //time execution time
+	gettimeofday(&start, NULL);
 	quickSort( A, 0, m);
-  //end timer
-  gettimeofday(&end, NULL);
-  //calculate elapsed time
+	gettimeofday(&end, NULL);
+  //calculte elapsedTime
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
-
-	printf("\n\nThe sorted array is:  ");
-	for(i = 1; i < m+1; ++i)
-		printf(" %d ", A[i]);
-	printf(" \n");
-  
+  //print out elapsed time
   printf("\n");
   printf("\nElapsed time for sort is: ");
   printf("%ld", elapsedTime); 
@@ -128,4 +114,3 @@ int main(int argv, char** args)
   free(A);
 
 }
-

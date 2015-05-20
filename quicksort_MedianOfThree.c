@@ -9,16 +9,17 @@
 */
 
 
-/**
- *  Mergesort.c
- *  Sort the inpwutted integers, using merge-sort algorithm.
- **/
+
 // http://www.cs.cityu.edu.hk/~lwang/ccs4335/mergesort.c
 // Quicksort:
 // http://www.comp.dit.ie/rlawlor/Alg_DS/sorting/quickSort.c
 // RadixSort:
 // http://austingwalters.com/radix-sort-in-c/
 
+
+/**
+ *  quicksort with median-of-three partitioning
+ **/
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -76,11 +77,13 @@ int main(int argv, char** args)
   long elapsedTime;
 //  char c;
 
-  printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
+  printf("0. 10\n1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-
+	case 0: file = "Data/random10.txt";
+  	  	  	  m = 10;
+  	  	  	  break;
   	  case 1: file = "Data/fewunique100.txt";
   	  	  	  m = 100;
   	  	  	  break;
@@ -93,8 +96,10 @@ int main(int argv, char** args)
   	  case 4: file = "Data/fewunique100000.txt";
   	  	  	  m = 100000;
   	  	  	  break;
-	 
-  	  default: printf("Please enter 1, 2, 3, 4.");
+	  case 5: file = "Data/fewunique1000000.txt";
+  	  	  	  m = 1000000;
+  	  	  	  break;
+  	  default: printf("Please enter 1, 2, 3, 4 or 5.");
   	  	  	  return 0;
   }
 
@@ -105,10 +110,6 @@ int main(int argv, char** args)
 
   fclose(data);
 
-	//printf("\n\nUnsorted array is:  ");
-	//for(i = 0; i < m; ++i)
-	//	printf(" %d ", A[i]);
-
   //start timer
   gettimeofday(&start, NULL);
 	quickSort( A, 0, m);
@@ -117,10 +118,6 @@ int main(int argv, char** args)
   //calculate elapsed time
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
 
-	//printf("\n\nThe sorted array is:  ");
-	//for(i = 1; i < m+1; ++i)
-	//	printf(" %d ", A[i]);
-	//printf(" \n");
   
   printf("\n");
   printf("\nElapsed time for sort is: ");
