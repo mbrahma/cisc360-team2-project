@@ -1,0 +1,57 @@
+/*
+* Comparing sorting algorithms
+*
+* Mark Acosta
+* Marshilla Brahma
+* Sam Flomenberg
+* Tongming Li
+* Justin Tse
+*/
+
+// http://www.cs.cityu.edu.hk/~lwang/ccs4335/mergesort.c
+// Quicksort:
+// http://www.comp.dit.ie/rlawlor/Alg_DS/sorting/quickSort.c
+// RadixSort:
+// http://austingwalters.com/radix-sort-in-c/
+
+
+void dp_qsort_array(Itr begin, Itr end)
+{
+  int length = static_cast<int>(std::distance(begin,end));
+  Itr pos1 = begin; ++pos1;
+  Itr pos2 = begin; ++pos2;
+  Itr pos3 = end; --pos3;
+  Itr tmp = end; --tmp;
+  Itr pivot1 = begin;
+  Itr pivot2 = tmp;
+  const int threshold = 17;
+
+  if (length < threshold) {
+    isort_array(begin, end);
+  } else {
+    if (*pivot2 < *pivot1) { //compare
+      swap_value(pivot1, pivot2);
+    }
+    while (pos2 != pos3) {
+      if (*pivot2 < *pos2) { //compare
+        --pos3;
+        swap_value(pos3, pos2);
+      } else {
+        if (*pos2 < *pivot1) { //compare
+          swap_value(pos2, pos1);
+          ++pos1;
+        }
+        ++pos2;
+      }
+    }
+    --pos1;
+    tmp = end; --tmp; //tmp = end-1
+    swap_value(begin, pos1);
+    swap_value(tmp, pos3);
+    ++pos3;
+    tmp = pos1; ++tmp;
+    dp_qsort_array(begin, pos1);
+    dp_qsort_array(tmp, pos2); //tmp = pos1+1
+    dp_qsort_array(pos3, end);
+  }
+}
