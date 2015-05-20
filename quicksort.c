@@ -77,8 +77,8 @@ int main(int argv, char** args)
   printf("Please the letter of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-  	  case 1: file = "Data/reversed1000000.txt";
-  	  	  	  m = 1000000;
+  	  case 1: file = "Data/rd100.txt";
+  	  	  	  m = 100;
   	  	  	  break;
   	  case 2: file = "Data/rd1000.txt";
   	  	  	  m = 1000;
