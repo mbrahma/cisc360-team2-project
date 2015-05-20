@@ -32,7 +32,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
-
+#include <string.h>
 /**
  * merge()
  * Merge two sorted arrays, A with a  integers and
@@ -117,36 +117,52 @@ merge_sort(int *A, int n)
  **/
 int main(int argv, char** args)
 {
-  int n;//, a;
+  int n, a;
   int i = 0;
   int m = 0;
   char * file;
+  char fd[80];
   FILE * data;
   int *A;
   struct timeval start, end;
   long elapsedTime;
 //  char c;
-
-  printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
-  printf("Please the letter of the number of elements you wish to sort: " );
+//  char * datatype;
+  printf("1. random\n 2. Nearly Sorted \n 3. Few Unique\n 4. Reversed\n");
+  printf("Please enter the number of the data you want to sort: \n");
+scanf("%d", &a);
+switch(a) {
+case (1): strcpy(fd, "Data/rd");
+break;
+case(2): strcpy(fd,"Data/nearlySorted");
+break;
+case(3): strcpy(fd, "Data/fewunique");
+break;
+case(4): strcpy(fd,"Data/reversed");
+break;
+default: strcpy(fd, "Data/rd");
+break;
+} 
+ printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
+  printf("Please enter the number  of the number of elements you wish to sort: " );
   scanf("%d", &n);
   switch(n) {
-  	  case 1: file = "Data/rd100.txt";
+  	  case 1: file = strcat(fd,"100.txt");
   	  	  	  m = 100;
   	  	  	  break;
-  	  case 2: file = "Data/rd1000.txt";
+  	  case 2: file = strcat(fd,"1000.txt");
   	  	  	  m = 1000;
   	  	  	  break;
-  	  case 3: file = "Data/rd10000.txt";
+  	  case 3: file = strcat(fd,"10000.txt");
   	  	  	  m = 10000;
   	  	  	  break;
-  	  case 4: file = "Data/rd100000.txt";
+  	  case 4: file = strcat(fd,"100000.txt");
   	  	  	  m = 100000;
   	  	  	  break;
   	  default: printf("Please enter 1, 2, 3, or 4.");
   	  	  	  return 0;
   }
-
+printf("\n%s", fd);
   A = (int *)malloc(sizeof(int) * m);
 
   data = fopen(file, "r");
@@ -160,11 +176,11 @@ int main(int argv, char** args)
 //  }
 
   printf("%s************** Result **************\n",KYEL);
-  printf("%sThe input array is: ", KCYN);
+/*  printf("%sThe input array is: ", KCYN);
   for (i = 0; i < m; i++) {
     printf("%d ", A[i]);
   }
-  printf("\n");
+  printf("\n");*/
   
   gettimeofday(&start, NULL);
 

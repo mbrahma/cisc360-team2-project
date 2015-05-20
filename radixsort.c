@@ -18,10 +18,19 @@
 // http://www.comp.dit.ie/rlawlor/Alg_DS/sorting/quickSort.c
 // RadixSort:
 // http://austingwalters.com/radix-sort-in-c/
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
+#include <sys/time.h>
 
 void printArray(int * array, int size){
 
@@ -59,8 +68,8 @@ void radixSort(int * array, int size){
   // Loop until we reach the largest significant digit
   while (largestNum / significantDigit > 0){
 
-    printf("\tSorting: %d's place ", significantDigit);
-    printArray(array, size);
+    //printf("\tSorting: %d's place ", significantDigit);
+    //printArray(array, size);
 
     int bucket[10] = { 0 };
 
@@ -87,8 +96,8 @@ void radixSort(int * array, int size){
     // Move to next significant digit
     significantDigit *= 10;
 
-    printf("\n\tBucket: ");
-    printArray(bucket, 10);
+    //printf("\n\tBucket: ");
+    //printArray(bucket, 10);
   }
 }
 
@@ -98,33 +107,66 @@ void radixSort(int * array, int size){
  **/
 int main(int argv, char** args)
 {
-	int i, n;
-	int *A;
+    int n;
+    int i = 0;
+    int m = 0;
+    char * file;
+    FILE * data;
+    int *A;
+    struct timeval start, end;
+    long elapsedTime;
 
-	  printf("Please input the number of elements: " );
-	  scanf("%d", &n);
 
-	  A = (int *)malloc(sizeof(int) * n);
-	  printf("Please input %d integers: ", n);
-	  for (i = 0; i < n; i++) {
-	    scanf("%d", &(A[i]));
-	  }
+    printf("1. 100\n2. 1000\n3. 10000\n4. 100000\n ");
+    printf("Please the letter of the number of elements you wish to sort:\n " );
+    scanf("%d", &n);
+    switch(n) {
+          case 1: file = "Data/rd100.txt";
+                  m = 100;
+                  break;
+          case 2: file = "Data/rd1000.txt";
+                  m = 1000;
+                  break;
+          case 3: file = "Data/rd10000.txt";
+                  m = 10000;
+                  break;
+          case 4: file = "Data/rd100000.txt";
+                  m = 100000;
+                  break;
+          default: printf("Please enter 1, 2, 3, or 4.\n");
+                          return 0;
+    }
 
-	  printf("\n\nRunning Radix Sort Example in C!\n");
-	  printf("----------------------------------\n");
+    A = (int *)malloc(sizeof(int) * m);
 
-/*	  int size = 12;
-	  int list[] = {10, 2, 303, 4021, 293, 1, 0, 429, 480, 92, 2999, 14};*/
+    data = fopen(file, "r");
+    for (i = 0; fscanf (data, "%d", A + i) != EOF; i++);
 
-	  printf("\nUnsorted List: ");
-	  printArray(A, n);
+    fclose(data);
 
-	  radixSort(A, n);
+    printf("%s************** Result **************\n",KYEL);
+    printf("%sThe input array is: ", KCYN);
+    for (i = 0; i < m; i++) {
+        printf("%d ", A[i]);
+    }
+    printf("\n");
 
-	  printf("\nSorted List:");
-	  printArray(A, n);
-	  printf("\n");
+    gettimeofday(&start, NULL);
 
-	  return 0;
+    radixSort(A, m);
+
+    gettimeofday(&end, NULL);
+    elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
+
+    /* print the sorted array */
+    printf("%sThe sorted array is: ", KGRN);
+    for(i = 1; i < m+1; ++i)
+                printf(" %d ", A[i]);
+    printf("\n");
+    printf("\nElapsed time for sort is: ");
+    printf("%ld", elapsedTime);
+    printf("%s\n", " ns");
+    free(A);
+
 }
 

@@ -100,11 +100,27 @@ int main(int argv, char** args)
 
   fclose(data);
 
+<<<<<<< HEAD
   //time execution time
 	gettimeofday(&start, NULL);
 	quickSort( A, 0, m);
 	gettimeofday(&end, NULL);
   //calculte elapsedTime
+=======
+  
+
+	// printf("\n\nUnsorted array is:  ");
+	// for(i = 0; i < m; ++i)
+	// 	printf(" %d ", A[i]);
+	gettimeofday(&start, NULL);
+	quickSort( A, 0, m);
+	gettimeofday(&end, NULL);
+	// printf("\n\nThe sorted array is:  ");
+	// for(i = 1; i < m+1; ++i)
+	// 	printf(" %d ", A[i]);
+	// printf(" \n");
+  
+>>>>>>> origin/master
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
   //print out elapsed time
   printf("\n");
