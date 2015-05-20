@@ -18,6 +18,9 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+
+
+
 int index = 0;
 void swap(int a, int b){
   int temp = a;
