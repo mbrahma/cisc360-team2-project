@@ -105,19 +105,19 @@ int main(int argv, char** args)
 
   fclose(data);
 
-  gettimeofday(&start, NULL);
+  
 
-	printf("\n\nUnsorted array is:  ");
-	for(i = 0; i < m; ++i)
-		printf(" %d ", A[i]);
-
+	// printf("\n\nUnsorted array is:  ");
+	// for(i = 0; i < m; ++i)
+	// 	printf(" %d ", A[i]);
+	gettimeofday(&start, NULL);
 	quickSort( A, 0, m);
-
-	printf("\n\nThe sorted array is:  ");
-	for(i = 1; i < m+1; ++i)
-		printf(" %d ", A[i]);
-	printf(" \n");
-  gettimeofday(&end, NULL);
+	gettimeofday(&end, NULL);
+	// printf("\n\nThe sorted array is:  ");
+	// for(i = 1; i < m+1; ++i)
+	// 	printf(" %d ", A[i]);
+	// printf(" \n");
+  
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
   printf("\n");
   printf("\nElapsed time for sort is: ");
