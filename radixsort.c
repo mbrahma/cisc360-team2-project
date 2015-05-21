@@ -8,16 +8,15 @@
 * Justin Tse
 */
 
-
 /**
- *  Mergesort.c
- *  Sort the inpwutted integers, using merge-sort algorithm.
- **/
-// http://www.cs.cityu.edu.hk/~lwang/ccs4335/mergesort.c
-// Quicksort:
-// http://www.comp.dit.ie/rlawlor/Alg_DS/sorting/quickSort.c
-// RadixSort:
-// http://austingwalters.com/radix-sort-in-c/
+ RadixSort:
+ http://austingwalters.com/radix-sort-in-c/
+
+ RadixSortOpt:\
+ http://www.programering.com/a/MDN4AjMwATk.html
+
+ */
+
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"
@@ -31,15 +30,18 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
+#include <math.h>
+#include <string.h>
 
-void printArray(int * array, int size){
+#define radix 1000
 
-  int i;
-  printf("[ ");
-  for (i = 0; i < size; i++)
-    printf("%d ", array[i]);
-  printf("]\n");
-}
+const double rp[]={
+  1,
+  1.0/(1.0*radix),
+  1.0/(1.0*radix*radix),
+  1.0/(1.0*radix*radix*radix),
+  1.0/(1.0*radix*radix*radix*radix)
+};
 
 int findLargestNum(int * array, int size){
 
@@ -57,8 +59,6 @@ int findLargestNum(int * array, int size){
 // Radix Sort
 void radixSort(int * array, int size){
 
-  printf("\n\nRunning Radix Sort on Unsorted List!\n\n");
-
   // Base 10 is used
   int i;
   int semiSorted[size];
@@ -68,14 +68,11 @@ void radixSort(int * array, int size){
   // Loop until we reach the largest significant digit
   while (largestNum / significantDigit > 0){
 
-    //printf("\tSorting: %d's place ", significantDigit);
-    //printArray(array, size);
-
-    int bucket[10] = { 0 };
+      int bucket[10] = { 0 };
 
     // Counts the number of "keys" or digits that will go into each bucket
-    for (i = 0; i < size; i++)
-      bucket[(array[i] / significantDigit) % 10]++;
+      for (i = 0; i < size; i++)
+          bucket[(array[i] / significantDigit) % 10]++;
 
     /**
      * Add the count of the previous buckets,
@@ -83,11 +80,11 @@ void radixSort(int * array, int size){
 		 * Works similar to the count sort algorithm
      **/
     for (i = 1; i < 10; i++)
-      bucket[i] += bucket[i - 1];
+        bucket[i] += bucket[i - 1];
 
     // Use the bucket to fill a "semiSorted" array
     for (i = size - 1; i >= 0; i--)
-      semiSorted[--bucket[(array[i] / significantDigit) % 10]] = array[i];
+        semiSorted[--bucket[(array[i] / significantDigit) % 10]] = array[i];
 
 
     for (i = 0; i < size; i++)
@@ -96,10 +93,46 @@ void radixSort(int * array, int size){
     // Move to next significant digit
     significantDigit *= 10;
 
-    //printf("\n\tBucket: ");
-    //printArray(bucket, 10);
   }
 }
+
+int get_part(int n,int i)
+{
+  return (int)(n*rp[i])%radix;
+}
+
+void radix_sort(int* a,int n)
+{
+    int* bucket=(int*)malloc(sizeof(int)*n);
+    int count[radix];
+
+    for(int i=0;i<2;++i)
+    {
+        memset(count,0,sizeof(int)*radix);
+
+        for(int j=0;j<n;++j)
+        {
+            count[get_part(a[j],i)]++;
+        }
+
+        for(int j=1;j<radix;++j)
+        {
+            count[j]+=count[j-1];
+        }
+
+        for(int j=n-1;j>=0;--j)
+        {
+            int k=get_part(a[j],i);
+            bucket[count[k]-1]=a[j];
+            count[k]--;
+        }
+
+        memcpy(a,bucket,sizeof(int)*n);
+    }
+
+    free(bucket);
+}
+
 
 /**
  *  main()
@@ -145,10 +178,11 @@ int main(int argv, char** args)
     fclose(data);
 
     printf("%s************** Result **************\n",KYEL);
-    printf("%sThe input array is: ", KCYN);
+/*    printf("%sThe input array is: ", KCYN);
     for (i = 0; i < m; i++) {
         printf("%d ", A[i]);
     }
+*/
     printf("\n");
 
     gettimeofday(&start, NULL);
@@ -159,13 +193,26 @@ int main(int argv, char** args)
     elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
 
     /* print the sorted array */
-    printf("%sThe sorted array is: ", KGRN);
+/*    printf("%sThe sorted array is: ", KGRN);
     for(i = 1; i < m+1; ++i)
                 printf(" %d ", A[i]);
+*/
     printf("\n");
-    printf("\nElapsed time for sort is: ");
+    printf("\nElapsed time for non-optimized Radix Sort is: ");
     printf("%ld", elapsedTime);
     printf("%s\n", " ns");
+
+    gettimeofday(&start, NULL);
+
+    radix_sort(A, m);
+
+    gettimeofday(&end, NULL);
+    elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
+    printf("\n");
+    printf("\nElapsed time for optimized Radix sort is: ");
+    printf("%ld", elapsedTime);
+    printf("%s\n", " ns");
+
     free(A);
 
 }
