@@ -33,6 +33,8 @@
 #include <time.h>
 #include <sys/time.h>
 #include <string.h>
+#include "omp.h"
+
 /**
  * merge()
  * Merge two sorted arrays, A with a  integers and
@@ -93,10 +95,12 @@ merge_sort(int *A, int n)
   A2 = (int*)malloc(sizeof(int) * n2);
 
   /* move the first n/2 elements to A1 */
+  #pragma omp parallel for
   for (i =0; i < n1; i++) {
     A1[i] = A[i];
   }
   /* move the rest to A2 */
+  #pragma omp parallel for
   for (i = 0; i < n2; i++) {
     A2[i] = A[i+n1];
   }
@@ -166,22 +170,14 @@ printf("\n%s", fd);
   A = (int *)malloc(sizeof(int) * m);
 
   data = fopen(file, "r");
+  #pragma omp parallel for
   for (i = 0; fscanf (data, "%d", A + i) != EOF; i++);
 
   fclose(data);
 
-//  printf("Please input %d integers: ", n);
-//  for (i = 0; i < n; i++) {
-//    scanf("%d", &(A[i]));
-//  }
-
   printf("%s************** Result **************\n",KYEL);
-/*  printf("%sThe input array is: ", KCYN);
-  for (i = 0; i < m; i++) {
-    printf("%d ", A[i]);
-  }
-  printf("\n");*/
   
+  //time execution time
   gettimeofday(&start, NULL);
 
   /* merge sort A */
@@ -190,9 +186,7 @@ printf("\n%s", fd);
   gettimeofday(&end, NULL);
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
 
-  /* print the sorted array */
- // printf("%sThe sorted array is: ", KGRN);
- 
+  
   printf("\n");
   printf("\nElapsed time for sort is: ");
   printf("%ld", elapsedTime); 
