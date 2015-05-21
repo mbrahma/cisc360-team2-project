@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-int numberOfFunctionCall = 0;
 
 //by swapping elements within the array, we avoid the memory allocation of more arrays. 
 void exchange (int input[], int a , int b){
@@ -34,7 +33,6 @@ void exchange (int input[], int a , int b){
       input[b] = temp;
   }
  void sort(int input[], int lowIndex, int highIndex) {
-    numberOfFunctionCall++;
       if (highIndex<=lowIndex) return;
       int pivot1=input[lowIndex];
       int pivot2=input[highIndex];
@@ -118,6 +116,5 @@ int main(int argv, char** args)
   printf("\nElapsed time for sort is: ");
   printf("%ld", elapsedTime); 
   printf("%s\n", " ns");
-  printf("%d\n", index);
   free(A);
 }
