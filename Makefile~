@@ -9,6 +9,8 @@ mergesort: mergesort.c
 	$(CC) $(CFLAGS) -o mergesort mergesort.c  -lm
 quicksort: quicksort.c 
 	$(CC) $(CFLAGS) -o quicksort quicksort.c  -lm
+inplacemerge: inplacemerge.cpp
+	$(CC) $(CFLAGS) -o inplacemerge inplacemerge.cpp  -lm
 #
 # Clean the src dirctory
 #
