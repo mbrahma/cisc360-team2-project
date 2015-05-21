@@ -128,8 +128,8 @@ int main(int argv, char** args)
   long elapsedTime;
 //  char c;
 //  char * datatype;
-  printf("1. random\n 2. Nearly Sorted \n 3. Few Unique\n 4. Reversed\n");
-  printf("Please enter the number of the data you want to sort: \n");
+  printf("1. Random\n2. Nearly Sorted \n3. Few Unique\n4. Reversed\n");
+  printf("Please enter the number of the data you want to sort: ");
 scanf("%d", &a);
 switch(a) {
 case (1): strcpy(fd, "Data/rd");
@@ -191,7 +191,7 @@ printf("\n%s", fd);
   elapsedTime = (end.tv_sec - start.tv_sec)*1000000 + end.tv_usec - start.tv_usec;
 
   /* print the sorted array */
-  printf("%sThe sorted array is: ", KGRN);
+ // printf("%sThe sorted array is: ", KGRN);
  
   printf("\n");
   printf("\nElapsed time for sort is: ");
